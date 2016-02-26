@@ -42,6 +42,15 @@ The following features are currently supported:
 ## Installation
 
     pip install mammoth
+
+## Other supported platforms
+
+* [JavaScript](https://github.com/mwilliamson/mammoth.js), both the browser and node.js.
+  Available [on npm](https://www.npmjs.com/package/mammoth).
+
+* [WordPress](https://wordpress.org/plugins/mammoth-docx-converter/).
+
+* [Java](https://github.com/mwilliamson/java-mammoth).
     
 ## Usage
 
@@ -167,6 +176,32 @@ def convert_image(image):
 mammoth.convert_to_html(docx_file, convert_image=mammoth.images.inline(convert_image))
 ```
 
+#### Bold
+
+By default, bold text is wrapped in `<strong>` tags.
+This behaviour can be changed by adding a style mapping for `b`.
+For instance, to wrap bold text in `<em>` tags:
+
+```python
+style_map = "b => em"
+
+with open("document.docx", "rb") as docx_file:
+    result = mammoth.convert_to_html(docx_file, style_map=style_map)
+```
+
+#### Italic
+
+By default, italic text is wrapped in `<em>` tags.
+This behaviour can be changed by adding a style mapping for `i`.
+For instance, to wrap italic text in `<strong>` tags:
+
+```python
+style_map = "i => strong"
+
+with open("document.docx", "rb") as docx_file:
+    result = mammoth.convert_to_html(docx_file, style_map=style_map)
+```
+
 #### Underline
 
 By default, the underlining of any text is ignored since underlining can be confused with links in HTML documents.
@@ -183,14 +218,7 @@ with open("document.docx", "rb") as docx_file:
     result = mammoth.convert_to_html(docx_file, style_map=style_map)
 ```
 
-The `convert_underline` argument is deprecated, and will be removed in Mammoth 1.0.
-The following behaves as the example above:
-
-```python
-mammoth.convert_to_html(docx_file, convert_underline=mammoth.underline.element("em"))
-```
-
-### Strikethrough
+#### Strikethrough
 
 By default, strikethrough text is wrapped in `<s>` tags.
 This behaviour can be changed by adding a style mapping for `strike`.
@@ -221,9 +249,6 @@ Converts the source document to HTML.
     
 * `convert_image`: by default, images are converted to `<img>` elements with the source included inline in the `src` attribute.
   Set this argument to an [image converter](#image-converters) to override the default behaviour.
-  
-* `convert_underline`: deprecated in favour of using style mappings to describe how to convert underlined text.
-  Set this argument to [`mammoth.underline.element(name)`](#underline) to override the default behaviour.
   
 * `ignore_empty_paragraphs`: by default, empty paragraphs are ignored.
   Set this option to `False` to preserve empty paragraphs in the output.
@@ -380,6 +405,28 @@ For instance, to match a paragraph with the style ID `Heading1`:
 ```
 p.Heading1
 ```
+
+#### Bold
+
+Match explicitly bold text:
+
+```
+b
+```
+
+Note that this matches text that has had bold explicitly applied to it.
+It will not match any text that is bold because of its paragraph or run style.
+
+#### Italic
+
+Match explicitly italic text:
+
+```
+i
+```
+
+Note that this matches text that has had italic explicitly applied to it.
+It will not match any text that is italic because of its paragraph or run style.
 
 #### Underline
 

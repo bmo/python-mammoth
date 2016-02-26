@@ -148,7 +148,7 @@ def bulleted_styles_dont_match_plain_paragraph():
     
 
 @istest
-def bold_runs_are_wrapped_in_strong_tags():
+def bold_runs_are_wrapped_in_strong_tags_by_default():
     result = convert_document_element_to_html(
         documents.run(children=[documents.text("Hello")], is_bold=True),
     )
@@ -156,11 +156,29 @@ def bold_runs_are_wrapped_in_strong_tags():
     
 
 @istest
-def italic_runs_are_wrapped_in_emphasis_tags():
+def bold_runs_can_be_configured_with_style_mapping():
+    result = convert_document_element_to_html(
+        documents.run(children=[documents.text("Hello")], is_bold=True),
+        style_map=[_style_mapping("b => em")]
+    )
+    assert_equal("<em>Hello</em>", result.value)
+    
+
+@istest
+def italic_runs_are_wrapped_in_emphasis_tags_by_default():
     result = convert_document_element_to_html(
         documents.run(children=[documents.text("Hello")], is_italic=True),
     )
     assert_equal("<em>Hello</em>", result.value)
+    
+
+@istest
+def italic_runs_can_be_configured_with_style_mapping():
+    result = convert_document_element_to_html(
+        documents.run(children=[documents.text("Hello")], is_italic=True),
+        style_map=[_style_mapping("i => strong")]
+    )
+    assert_equal("<strong>Hello</strong>", result.value)
     
 
 @istest
