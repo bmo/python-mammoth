@@ -198,6 +198,10 @@ class MarkdownWriter(Writer):
         if html_id:
             self._fragments.append('<a id="{0}"></a>'.format(html_id))
 
+    @classmethod
+    def validate_options(cls, options):
+        # no options, always return true
+        return True
 
 def _escape_markdown(value):
     return re.sub(r"([\`\*_\{\}\[\]\(\)\#\+\-\.\!])", r"\\\1", re.sub("\\\\", "\\\\\\\\", value))

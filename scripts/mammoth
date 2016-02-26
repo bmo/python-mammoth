@@ -12,7 +12,13 @@ from mammoth import writers
 
 def main():
     args = _parse_args()
-    
+
+    if True != writers.validate_writer_options(args.output_format, args.output_options):
+        sys.stderr.write("Invalid output format options: ")
+        sys.stderr.write(args.output_options)
+        sys.stderr.write("\n")
+        return -1
+
     if args.style_map is None:
         style_map = None
     else:
@@ -33,6 +39,7 @@ def main():
             style_map=style_map,
             convert_image=convert_image,
             output_format=args.output_format,
+            output_options=args.output_options
         )
         for message in result.messages:
             sys.stderr.write(message.message)
@@ -105,6 +112,13 @@ def _parse_args():
         required=False,
         choices=writers.formats(),
         help="Output format.")
+
+    parser.add_argument(
+        "--output-options",
+        required=False,
+        metavar="output-options",
+        help="Output options for particular format.")
+
     parser.add_argument(
         "--style-map",
         required=False,

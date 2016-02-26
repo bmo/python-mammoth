@@ -16,8 +16,9 @@ def convert_document_element_to_html(element,
         convert_underline=None,
         id_prefix=None,
         output_format=None,
-        ignore_empty_paragraphs=True):
-            
+        ignore_empty_paragraphs=True,
+        output_options=None
+                                     ):
     if style_map is None:
         style_map = []
     
@@ -28,7 +29,7 @@ def convert_document_element_to_html(element,
         convert_image = images.inline(_generate_image_attributes)
     
     def create_writer():
-        return writers.writer(output_format)
+        return writers.writer(output_format, output_options)
     
     html_generator = HtmlGenerator(create_writer)
     messages = []
