@@ -156,7 +156,7 @@ class _DocumentConverter(documents.ElementVisitor):
     
     
     def visit_bookmark(self, bookmark):
-        self._html_generator.start("a", {"id": self._html_id(bookmark.name)}, always_write=True)
+        self._html_generator.start("span", {"data-mammoth-style":"bookmark", "id": self._html_id(bookmark.name)}, always_write=True)
         self._html_generator.end()
     
     

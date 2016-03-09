@@ -277,7 +277,7 @@ def bookmarks_are_converted_to_anchors_with_ids():
         documents.bookmark(name="start"),
         id_prefix="doc-42",
     )
-    assert_equal('<a id="doc-42-start"></a>', result.value)
+    assert_equal('<span data-mammoth-style="bookmark" id="doc-42-start"></span>', result.value)
 
 
 @istest
